@@ -6,4 +6,11 @@ declare namespace App {
 	// interface PageData {}
 	// interface Error {}
 	// interface Platform {}
+
+	interface SiteInfo {
+		name: string;
+		url: string;
+		key: string;
+	};
+
 }

@@ -59,6 +59,12 @@ function createSites() {
 
 export const sites = createSites();
 
+export const makeApiUrl = (site: SiteInfo, param: string): string => {
+  const urlBase = site.url.endsWith("/") ? site.url : `${site.url}/`;
+  const sep = param.includes('?') ? '&' : '?';
+  return `${urlBase}${param}${sep}key=${site.key}`;
+} 
+
 //  original: https://github.com/joshnuss/svelte-local-storage-store
 // import {writable as internal, get, Writable} from 'svelte/store'
 

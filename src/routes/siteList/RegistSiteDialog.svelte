@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from "svelte";
 	import { sites } from '$lib/local-storage-store';
 
@@ -40,7 +40,7 @@
 <div class="modal">
   <div class="modal-background">
     <div class="modal-contents">
-      <span class="close" on:click={CloseDialog}>x</span>
+      <button class="close" on:click={CloseDialog}>x</button>
       <h2>Redmine情報登録</h2>
       <div class="contents">
         <label class="input-name">

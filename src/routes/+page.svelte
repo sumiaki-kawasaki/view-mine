@@ -6,23 +6,7 @@
 	const GetSite = async (idx: number) => {
 		if (idx < 0 || idx >= $sites.length) { return; }
 		const site = $sites[idx];
-		// const url = makeApiUrl(site, 'projects.json');
-		// const response = await fetch(url, {
-		// 	method: 'GET',
-		// 	mode: 'cors',
-		// 	credentials: 'include',
-		// 	headers: {
-		// 		'Content-Type': 'application/json',
-		// 		'X-Redmine-API-Key': site.key
-		// 	}
-		// });
-		// console.dir(response);
-		// if (response.ok) {
-		// 	return await response.json();
-		// } else {
-		// 	throw Error(`status: ${response.status}, ${response.statusText} : url: ${url}`);
-		// }
-		const url = `/api?tgt=${encodeURIComponent(site.url)}&prm=${encodeURIComponent('projects.json')}&key=${site.key}`;
+		const url = makeApiUrl(site, 'projects.json');
 		const res = await fetch(url);
 		if (!res.ok) {
 			throw Error(`status: ${res.status}, ${res.statusText} : url: ${url}`);

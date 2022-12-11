@@ -20,14 +20,11 @@ export async function GET({ url }) {
   const urlBase = targetUrl.endsWith("/") ? targetUrl : `${targetUrl}/`;
   const sep = targetParam.includes('?') ? '&' : '?';
   const callUrl = `${urlBase}${targetParam}${sep}key=${paramKey}`;
-  // const callUrl = `${urlBase}${targetParam}`;
-  console.log(callUrl);
-  // const res = await fetch(callUrl, {
-  //   headers: { 'X-Redmine-API-Key': paramKey }
-  // });
+  // console.log(callUrl);
   const res = await fetch(callUrl);
   if (!res.ok) {
     throw error(res.status, { message: `status: ${res.status}, ${res.statusText} : url: ${url}` });
   }
-  return await res.json();
+  const json = await res.json();
+  return new Response(JSON.stringify(json));
 }

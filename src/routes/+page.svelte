@@ -1,18 +1,23 @@
 <script lang="ts">
 	import { sites, makeApiUrl } from '$lib/local-storage-store';
+	import ObjectViewer from './ObjectViewer.svelte';
 
 	let sitePromise: any = undefined;
+	let siteName = '';
 
 	const GetSite = async (idx: number) => {
-		if (idx < 0 || idx >= $sites.length) { return; }
+		if (idx < 0 || idx >= $sites.length) {
+			return;
+		}
 		const site = $sites[idx];
 		const url = makeApiUrl(site, 'projects.json');
+		siteName = site.name;
 		const res = await fetch(url);
 		if (!res.ok) {
 			throw Error(`status: ${res.status}, ${res.statusText} : url: ${url}`);
 		}
 		return await res.json();
-	}
+	};
 </script>
 
 <svelte:head>
@@ -21,22 +26,27 @@
 </svelte:head>
 
 <section>
-  {#if $sites.length > 0}
-    <ul class="site-list">
-      {#each $sites as site, i}
-        <li>
-          <button class="btn" on:click={() => sitePromise = GetSite(i)}>{site.name} 取得</button>
-        </li>
-      {/each}
-    </ul>
-  {:else}
-    <p>登録は0件です</p>
-  {/if}
+	{#if $sites.length > 0}
+		<ul class="site-list">
+			{#each $sites as site, i}
+				<li>
+					<button class="btn" on:click={() => (sitePromise = GetSite(i))}>{site.name} 取得</button>
+				</li>
+			{/each}
+		</ul>
+	{:else}
+		<p>登録は0件です</p>
+	{/if}
 	{#if sitePromise != undefined}
 		{#await sitePromise}
 			<p>...アクセス中</p>
 		{:then siteJson}
-			<p>{JSON.stringify(siteJson)}</p>
+			{#if siteJson['projects'] != null}
+				<p>{siteName} : Projects</p>
+				{#each siteJson['projects'] as project}
+					<ObjectViewer data={project} />
+				{/each}
+			{/if}
 		{:catch error}
 			<p>{error.message}</p>
 		{/await}

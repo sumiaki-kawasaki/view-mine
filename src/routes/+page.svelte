@@ -10,7 +10,10 @@
 			return;
 		}
 		const site = $sites[idx];
-		const url = makeApiUrl(site, 'projects.json');
+		// const url = makeApiUrl(site, 'projects.json');
+		const url = makeApiUrl(site, 'time_entries.json?from=2023-10-01&to=2024-10-31&user_id=me');
+		console.log(`url: ${url}`);
+		console.log(`url2: ${decodeURIComponent(url)}`);
 		siteName = site.name;
 		const res = await fetch(url);
 		if (!res.ok) {
@@ -41,9 +44,11 @@
 		{#await sitePromise}
 			<p>...アクセス中</p>
 		{:then siteJson}
-			{#if siteJson['projects'] != null}
+			<!-- {#if siteJson['projects'] != null} -->
+			{#if siteJson['time_entries'] != null}
 				<p>{siteName} : Projects</p>
-				{#each siteJson['projects'] as project}
+				<!-- {#each siteJson['projects'] as project} -->
+				{#each siteJson['time_entries'] as project}
 					<ObjectViewer data={project} />
 				{/each}
 			{/if}

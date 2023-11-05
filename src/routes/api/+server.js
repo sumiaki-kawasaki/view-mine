@@ -26,5 +26,6 @@ export async function GET({ url }) {
     throw error(res.status, { message: `status: ${res.status}, ${res.statusText} : url: ${url}` });
   }
   const json = await res.json();
+  // console.dir(json);
   return new Response(JSON.stringify(json));
 }
